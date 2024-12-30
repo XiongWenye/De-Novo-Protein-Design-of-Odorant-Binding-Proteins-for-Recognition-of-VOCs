@@ -22,7 +22,7 @@ def process_binding_value(value):
         return float(value)
     except ValueError:
         return None
-
+    
 def find_best_obp(data, target_molecules):
     best_obps = {}
     for chinese_name, english_name in target_molecules.items():
@@ -36,15 +36,24 @@ def find_best_obp(data, target_molecules):
                     if pd.notna(binding_value):
                         processed_value = process_binding_value(binding_value)
                         if processed_value is not None:
-                            other_binding_sum = data[obp].apply(process_binding_value).sum() - processed_value
-                            score = processed_value / (processed_value + other_binding_sum)
-                            if score > best_obp_score:
-                                best_obp = obp
+                            # We want to pick the obp where the binding value to the target molecule is as low as possible
+                            # while the binding value to the other molecules is as high as possible
+                            # and note that all other molecules should have a binding value at least greater than the target molecule 
+                            other_data = data[data['Compound name'].str.lower() != english_name.lower()]
+                            other_values = [
+                                process_binding_value(v) for v in other_data[obp] if pd.notna(v)
+                            ]
+                            if other_values:
+                                avg_other_binding = sum(other_values) / len(other_values)
+                            else:
+                                avg_other_binding = 1000
+                            score = -processed_value + avg_other_binding
+                            if score > best_obp_score and all(others >= processed_value - 10 for others in other_values):
                                 best_obp_score = score
+                                best_obp = obp
             if best_obp:
                 best_obps[chinese_name] = best_obp
     return best_obps
-
 best_obps = find_best_obp(data, target_molecules)
 
 output_file_path = 'Best_OBP_Combination.csv'
