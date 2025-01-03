@@ -1,6 +1,6 @@
 import pandas as pd
 
-csv_file_path = 'Compound_OBP_binding.csv'
+csv_file_path = 'Natural_OBP_Selection/Compound_OBP_binding.csv'
 data = pd.read_csv(csv_file_path)
 
 target_molecules = {
@@ -12,7 +12,10 @@ target_molecules = {
     'C6H12O 己醛': 'hexanal',
     'C5H8O 环戊酮': 'cyclopentanone',
     '3-羟基-2-丁酮': '3-hydroxy-2-butanone',
-    '2-戊酮': '2-pentanone'
+    '2-戊酮': '2-pentanone',
+    'C7H15CHO 辛醛': 'octanal / C8:Ald',
+    'C8H17CHO 壬醛': 'nonanal / Pelargonic aldehyde / Nonaldehyde / C9:Ald',
+    'C9H19CHO 癸醛': 'decanal / 10:Ald',
 }
 
 def process_binding_value(value):
@@ -48,7 +51,7 @@ def find_best_obp(data, target_molecules):
                             else:
                                 avg_other_binding = 1000
                             score = -processed_value + avg_other_binding
-                            if score > best_obp_score and all(others >= processed_value - 10 for others in other_values):
+                            if score > best_obp_score and all(others >= processed_value - 1  for others in other_values):
                                 best_obp_score = score
                                 best_obp = obp
             if best_obp:
@@ -56,7 +59,7 @@ def find_best_obp(data, target_molecules):
     return best_obps
 best_obps = find_best_obp(data, target_molecules)
 
-output_file_path = 'Best_OBP_Combination.csv'
+output_file_path = 'Natural_OBP_Selection/Best_OBP_Combination.csv'
 with open(output_file_path, 'w', encoding='utf-8') as file:
     file.write('Molecule,OBP\n')
     file.write('\n')
