@@ -12,8 +12,8 @@ cd rf_diffusion_all_atom
 you should also follow the step of https://github.com/baker-laboratory/rf_diffusion_all_atom?tab=readme-ov-file
 
 ## 2. Natural OBP selection
-To generate the Protein for VOC Recognition, we download the pdb of all possible PDB.
-We have also written a a Python script to analyze the binding affinities of various compounds to different OBP (Odorant Binding Proteins) and identify the best OBP combinations for specified target molecules based on a new scoring method. After that, we successfully found the best OBP to detect Hexanal, Octanal, Nonanal respectively.
+To generate the Protein for VOC Recognition, we download the pdb of all possible OBP.
+We have also written a a Python script to analyze the binding affinities of various compounds to different OBP and identify the best OBP one for specified target molecules based on a new scoring method. After that, we successfully found the best OBP to detect Hexanal, Octanal, Nonanal respectively.
 
 We also combine the two structures (OBP and its corresponding VOC) by simple concatenation. Then we got our OBP with ligands: BminOBP9_S24P_lig.pdb, SaveOBP9_lig.pdb, AgamCSP3_lig.pdb  
 
