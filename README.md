@@ -1,5 +1,9 @@
 # De Novo Protein Design of Odorant Binding Proteins for VOCs Recognition
 
+## ShanghaiTech Protein Design 2024 fall Final Project  
+
+### Grade: A+ (97)
+
 Set up && installation
 
 ## 1.clone rf_diffusion_all_atom from baker lab
